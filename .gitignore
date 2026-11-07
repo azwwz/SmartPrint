@@ -1,0 +1,66 @@
+# ==========================================================
+# SmartPrint .gitignore
+# ==========================================================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ---------- 虚拟环境 ----------
+.venv/
+venv/
+env/
+ENV/
+
+# ---------- PyInstaller 构建产物 ----------
+# 注：SmartPrint.spec / SmartPrintDebug.spec 是构建配方，需要纳入版本管理
+build/
+dist/
+*.manifest
+*.pkg
+!*.spec
+
+# ---------- 运行时数据（保留空目录占位）----------
+Data/**
+!Data/.gitkeep
+
+# ---------- 日志 ----------
+logs/*
+!logs/.gitkeep
+
+# ---------- 外部工具 / 驱动（体积大，按需本地放置）----------
+drivers/*
+!drivers/.gitkeep
+
+# ---------- 本地配置（含本机绝对路径，各机器不同）----------
+# 参考 config/config.example.json 自行创建
+config/config.json
+
+# ---------- IDE / 编辑器 ----------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---------- 操作系统 ----------
+Thumbs.db
+Desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+
+# ---------- 临时文件 ----------
+*.tmp
+*.bak
+*.log
+_*.tmp/

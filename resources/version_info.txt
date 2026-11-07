@@ -1,0 +1,43 @@
+# SmartPrint 的 Windows 版本资源（阶段八：打包完善）
+#
+# PyInstaller 打包时通过 SmartPrint.spec 里的 version= 引用本文件，
+# 内容会写进 exe 的 VS_VERSIONINFO 资源，于是「属性 → 详细信息」里能看到
+# 产品名、版本号和说明，而不是一片空白。
+#
+# 注意：本文件不是普通文本，而是一段会被 PyInstaller 当作 Python 字面量求值的结构，
+# 键名（VSVersionInfo / FixedFileInfo / StringFileInfo / ...）必须原样保留。
+#
+# 「080404B0」= 语言 0804（简体中文） + 代码页 04B0（1200，Unicode）；
+# 下面的 VarStruct Translation 也要跟着写 [2052, 1200]，两者对不上时资源会失效。
+#
+# 版本号必须和 app/core/version.py 的 APP_VERSION 保持一致：0.8.1.0。
+# 0.8.1 = 阶段八之后的「反面按纸堆逆序打印」（默认 back_page_order 改为 even_descending）。
+
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(0, 8, 1, 0),
+    prodvers=(0, 8, 1, 0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0)
+  ),
+  kids=[
+    StringFileInfo([
+      StringTable('080404B0', [
+        StringStruct('CompanyName', 'SmartPrint'),
+        StringStruct('FileDescription', 'SmartPrint 手动双面打印管理'),
+        StringStruct('FileVersion', '0.8.1.0'),
+        StringStruct('InternalName', 'SmartPrint'),
+        StringStruct('OriginalFilename', 'SmartPrint.exe'),
+        StringStruct('ProductName', 'SmartPrint'),
+        StringStruct('ProductVersion', '0.8.1.0'),
+        StringStruct('LegalCopyright', 'SmartPrint'),
+        StringStruct('Comments', '逐面提交、逐面确认的手动双面打印工具')
+      ])
+    ]),
+    VarFileInfo([VarStruct('Translation', [2052, 1200])])
+  ]
+)

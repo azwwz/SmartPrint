@@ -1,0 +1,42 @@
+{
+  "printer": {
+    "name": "HP LaserJet 1020",
+    "virtual_printer_name": "PDF24",
+    "sumatra_path": "",
+    "print_settings": "simplex",
+    "timeout_seconds": 60.0,
+    "queue_recheck_seconds": 0.0
+  },
+  "paper": {
+    "size": "A4",
+    "sheets_per_batch": 5
+  },
+  "duplex": {
+    "mode": "manual",
+    "front_page_order": "odd_first",
+    "back_page_order": "even_descending",
+    "flip_direction": "long_edge"
+  },
+  "incoming": {
+    "stability_seconds": 2.0,
+    "poll_interval_seconds": 0.5,
+    "max_wait_seconds": 60.0,
+    "rescan_interval_seconds": 60.0,
+    "min_size_bytes": 512
+  },
+  "database": {
+    "file": "Data/database/smartprint.db"
+  },
+  "paths": {
+    "incoming": "Data/incoming",
+    "queue": "Data/queue",
+    "jobs": "Data/jobs",
+    "database": "Data/database",
+    "completed": "Data/completed",
+    "backups": "Data/backups"
+  },
+  "backup": {
+    "keep": 10,
+    "include_jobs": false
+  }
+}
