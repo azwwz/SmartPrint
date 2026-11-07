@@ -45,7 +45,24 @@ SmartPrint\
 | --- | --- |
 | **一台真实打印机** | 真正出纸的那台。PDF24、Microsoft Print to PDF 这类虚拟打印机会被识别出来并拒绝使用。 |
 | **SumatraPDF** | 程序靠它把单页 PDF 静默发到打印机。没有的话去 [sumatrapdfreader.org](https://www.sumatrapdfreader.org/download-free-pdf-viewer) 下载，程序会自动在常见安装目录、`drivers\`、`PATH`、注册表里找。 |
-| **PDF24**（或同类虚拟打印机） | 只用来**接收**打印任务：任何软件里 `Ctrl+P` 选 PDF24，它会把 PDF 写进 `Data\incoming`，SmartPrint 监视这个目录并自动登记任务。[下载 PDF24](https://www.pdf24.org/en/) |
+| **PDF24**（或同类虚拟打印机） | 只用来**接收**打印任务：任何软件里 `Ctrl+P` 选 PDF24，它会把 PDF 写进 `Data\incoming`，SmartPrint 监视这个目录并自动登记任务。[下载 PDF24](https://www.pdf24.org/en/) ⚠️ **首次使用必须先设好它的输出目录**，见下一节。 |
+
+### 让 PDF24 把 PDF 存进 SmartPrint 的目录（必须做一次）
+
+PDF24 装好之后默认**不是**「自动存到某个文件夹」，可能每打一份都弹助手窗口让你手动另存。得改一次设置，让它安静地写进 `Data\incoming`：
+
+1. **先启动一次 SmartPrint**——它会把 `Data\incoming` 目录建出来（PDF24 不会替你建目录）。
+2. 打开 PDF24 的设置：开始菜单 → **PDF24 Creator** →「设置」；或直接运行安装目录里的 `pdf24-Settings.exe`（如 `C:\Program Files\PDF24\pdf24-Settings.exe`）。
+3. 左侧选「**PDF打印机**」。
+4. 在「**PDF打印机工具**」里选「**打印后自动保存文档**」（默认那项是「在 PDF24 助手中打开」，那样每份都要你手点保存，程序等不到文件）。
+5. 在「**自动保存**」里把「**输出目录**」设成 `<SmartPrint 文件夹>\Data\incoming`，例如 `D:\Apps\SmartPrint\Data\incoming`。
+6. 「**文件名称**」保持默认模板 `%Y-%m-%d_%H-%M-%S_$id_$fileName`。**不要把 `$id` 删掉**——程序靠这一段识别「同一份文档被重复打印」，去掉就只能按整个文件名去重了。
+7. **取消勾选**「保存前询问文件名」——勾着的话每打一份都弹框，任务不会自动进队列。
+8. 「保存后打开目标文件夹」建议不勾，否则每打一份都弹出一个资源管理器窗口。
+
+**怎么验证设对了**：随便打一份 PDF 到 PDF24，目标目录里应出现类似 `2026-11-05_16-17-26_1FD3F68B_文档1.pdf` 的文件，主窗口列表里立刻多出一条「待处理」。没出现就先看 PDF24 的输出目录填的是不是这个路径，再按 `F5` 手动扫一次。
+
+> ⚠️ 这个输出目录是**绝对路径**记在 PDF24 里的。以后把 `SmartPrint` 文件夹挪了位置、或者换电脑重装，都要回来把这一项改成新路径——否则 PDF24 还在往旧目录写，程序永远等不到文件。
 
 ---
 
@@ -137,6 +154,9 @@ Windows 里完整名称可能是 `HP LaserJet 1020 1016811`，SumatraPDF 需要�
 **Q：点了「提交当前页」，打印机没动静。**
 看窗口里的提示和「本次结果」。常见原因：打印机脱机、缺纸、上一页还堵在队列里、SumatraPDF 路径不对。程序**不会自动重试**——处理完再点一次提交。
 
+**Q：`Ctrl+P` 打到 PDF24 了，列表里却没有任务。**
+九成是 PDF24 的输出目录没设成 `Data\incoming`，见前面「让 PDF24 把 PDF 存进 SmartPrint 的目录」。另外检查「保存前询问文件名」有没有关掉、程序窗口是不是开着这个 `Data` 目录对应的同一份程序。按 `F5` 可手动扫描一次。
+
 **Q：翻面后背面印倒 / 印反了。**
 换一个「翻面方向」，下次生效。已经打坏的纸按「打印异常」整张补打。
 
@@ -157,7 +177,7 @@ Windows 里完整名称可能是 `HP LaserJet 1020 1016811`，SumatraPDF 需要�
 ## 七、数据都在哪
 
 ```
-Data\incoming\                 PDF24 输出目录（任务接收）
+Data\incoming\                 PDF24 的输出目录（任务接收，必须和 PDF24 设置里的一致）
 Data\jobs\<任务号>\            original.pdf、page_001.pdf…、plan.json
 Data\database\smartprint.db    任务数据库（SQLite）
 Data\completed\removed\        删除任务时归档的源 PDF
